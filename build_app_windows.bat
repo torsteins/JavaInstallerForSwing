@@ -1,4 +1,7 @@
-rem @ECHO OFF
+@ECHO OFF
+rem This script for packaging a Java application as a Windows
+rem installer is based on an example by dlemmermann found at
+rem https://github.com/dlemmermann/JPackageScriptFX
 
 rem ------ ENVIRONMENT --------------------------------------------------------
 rem The script depends on various environment variables to exist in order to
@@ -19,8 +22,15 @@ ECHO Main jar: %MAIN_JAR%
 ECHO Main class: %MAIN_CLASS%
 ECHO Project version: %PROJECT_VERSION%
 
-rem Set desired installer type: "app-image" "msi" "exe".
-set INSTALLER_TYPE=exe
+rem Set desired installer type: "msi" "exe" (or "app-image").
+set INSTALLER_TYPE=msi
+ECHO Installer type: %INSTALLER_TYPE%
+
+set YEAR=%DATE:~6,4%
+ECHO Year: %YEAR%
+
+set PATH_TO_MAIN="target\classes\%MAIN_CLASS:.=\%"
+echo Path to main: %PATH_TO_MAIN%
 
 rem ------ SETUP DIRECTORIES AND FILES ----------------------------------------
 rem Remove previously generated java runtime and installers. Copy all required
@@ -46,7 +56,7 @@ echo detecting required modules
   --multi-release %JAVA_VERSION% ^
   --ignore-missing-deps ^
   --class-path "target\installer\input\libs\*" ^
-  --print-module-deps target\classes\uib\inf101\Main.class > temp.txt
+  --print-module-deps "%PATH_TO_MAIN%.class" > temp.txt
 
 set /p detected_modules=<temp.txt
 del temp.txt
@@ -101,10 +111,10 @@ call "%JAVA_HOME%\bin\jpackage" ^
   --runtime-image target/java-runtime ^
   --icon src/main/logo/windows/duke.ico ^
   --app-version %APP_VERSION% ^
-  --vendor "ACME Inc." ^
-  --copyright "Copyright © 2019-21 ACME Inc." ^
+  --vendor "%APP_VENDOR%" ^
+  --copyright "Copyright © %YEAR% %APP_VENDOR%" ^
   --win-dir-chooser ^
-  --win-shortcut ^
   --win-per-user-install ^
+  --win-shortcut ^
   --win-menu
 rem  --java-options -Xmx2048m
