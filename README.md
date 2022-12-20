@@ -22,4 +22,4 @@ Once your environment is set up you can simply call `mvn clean install`. It will
 
 ## Credits and more details
 
-This template is based on the excellent template by dlemmermann for JavaFX projects. The template you see here is simplified and is tailored towards Swing projects for students in introductory programming courses. Hence, for a more in-depth documentation and an example using a multi-module maven setup, please check out the original source: https://github.com/dlemmermann/JPackageScriptFX
+This template is based on the excellent [template by dlemmermann for JavaFX projects](https://github.com/dlemmermann/JPackageScriptFX). The template you see here is simplified and is tailored towards Swing projects for students in introductory programming courses. Hence, for a more in-depth documentation and an example using a multi-module maven setup, please check out the original source: https://github.com/dlemmermann/JPackageScriptFX
