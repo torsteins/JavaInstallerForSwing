@@ -11,7 +11,7 @@ Create native application installers for Mac and Windows by running the *install
 
 ## Configuration
 
-To configure your project, you need to update the project properties in the beginning of [pom.xml](./pom.xml). In particular, you must change the properties of *groudId*, *artifacId*, *name*, *app.main.class* and *app.vendor* to match what you use in your project.
+To configure your project, you need to update the project properties in the beginning of [pom.xml](./pom.xml). In particular, you must change the properties of *groupId*, *artifacId*, *name*, *app.main.class* and *app.vendor* to match what you use in your project.
 
 ## Icons
 
