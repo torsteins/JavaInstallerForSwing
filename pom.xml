@@ -22,8 +22,8 @@
         <app.version>1.0.0</app.version> <!-- version displayed in "about" -->
         <app.installer.macosx.type>dmg</app.installer.macosx.type> <!-- dmg, pkg -->
         <app.installer.windows.type>msi</app.installer.windows.type> <!-- msi, exe -->
-        <app.macosx.icon.path>src/main/logo/macosx/duke.icns</app.macosx.icon.path>
-        <app.windows.icon.path>src/main/logo/windows/duke.ico</app.windows.icon.path>
+        <app.macosx.icon.path>src/main/logo/macosx/logo.icns</app.macosx.icon.path>
+        <app.windows.icon.path>src/main/logo/windows/logo.ico</app.windows.icon.path>
 
         <!-- Library and plugin versions -->
         <junit.version>5.9.1</junit.version>
