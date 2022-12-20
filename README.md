@@ -20,13 +20,6 @@ Executables require an application icon. Default icons are part of the project. 
 ## Building the Project
 Once your environment is set up you can simply call `mvn clean install`. It will do a standard build of the application and in addition it will analyze all the dependencies and copy the resulting set of JAR files into the folder target/libs. This work is done via the Maven dependency plugin. Once the standard build is completed Maven will invoke the shell script (on Mac) or the batch script (on Windows). The Maven [pom.xml](./pom.xml) uses two different profiles, both of them being activated via the OS that they are running on.
 
-The scripts both have the same structure:
-
-* Environment
-* Dependency Analysis
-* Runtime Image Generation
-* Packaging
-
 ## Credits and more details
 
 This template is based on the excellent template by dlemmermann for JavaFX projects. The template you see here is simplified and is tailored towards Swing projects for students in introductory programming courses. Hence, for a more in-depth documentation and an example using a multi-module maven setup, please check out the original source: https://github.com/dlemmermann/JPackageScriptFX
