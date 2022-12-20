@@ -17,6 +17,7 @@
         <app.vendor>Torstein Strømme</app.vendor>
         <mac.installer.type>dmg</mac.installer.type> <!-- dmg, pkg -->
         <windows.installer.type>msi</windows.installer.type> <!-- msi, exe -->
+        <windows.icon.path>src/main/logo/windows/duke.ico</windows.icon.path>
 
         <java.version>17</java.version>
         <junit.version>5.9.1</junit.version>
@@ -159,15 +160,16 @@
                             <workingDirectory>${project.basedir}</workingDirectory>
                             <executable>build_app_windows.bat</executable>
                             <environmentVariables>
-                                <APP_NAME>${project.name}</APP_NAME>
                                 <APP_PACKAGE>${project.groupId}</APP_PACKAGE>
                                 <APP_VENDOR>${app.vendor}</APP_VENDOR>
                                 <APP_VERSION>${client.version}</APP_VERSION>
+                                <ICON_PATH>${windows.icon.path}</ICON_PATH>
                                 <INSTALLER_TYPE>${windows.installer.type}</INSTALLER_TYPE>
                                 <JAVA_HOME>${java.home}</JAVA_HOME>
                                 <JAVA_VERSION>${java.version}</JAVA_VERSION>
                                 <MAIN_JAR>${project.artifactId}-${project.version}.jar</MAIN_JAR>
                                 <MAIN_CLASS>${app.main.class}</MAIN_CLASS>
+                                <PROJECT_NAME>${project.name}</PROJECT_NAME>
                                 <PROJECT_VERSION>${project.version}</PROJECT_VERSION>
                             </environmentVariables>
                         </configuration>
