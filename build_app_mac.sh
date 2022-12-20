@@ -1,103 +1,102 @@
 #!/bin/bash
-
-# ------ ENVIRONMENT --------------------------------------------------------
-# The script depends on various environment variables to exist in order to
-# run properly. The java version we want to use, the location of the java
-# binaries (java home), and the project version as defined inside the pom.xml
-# file, e.g. 1.0-SNAPSHOT.
+# Script for packaging a Java application as a Mac installer.
+# Designed to be used with Maven (see example pom.xml at
+# https://github.com/torsteins/JavaInstallerForSwing)
 #
-# PROJECT_VERSION: version used in pom.xml, e.g. 1.0-SNAPSHOT
-# APP_VERSION: the application version, e.g. 1.0.0, shown in "about" dialog
+# Inspired by a template made by dlemmermann at
+# https://github.com/dlemmermann/JPackageScriptFX
+#
+# Simplified by Torstein Strømme to fit the Swing framework.
 
-# Set desired installer type: "dmg", "pkg".
-INSTALLER_TYPE=dmg
 
-echo "java home: $JAVA_HOME"
-echo "java version: $JAVA_VERSION"
-echo "project version: $PROJECT_VERSION"
-echo "main class: $MAIN_CLASS"
-echo "package: $APP_PACKAGE"
-echo "app name: $APP_NAME"
-echo "app version: $APP_VERSION"
-echo "app vendor: $APP_VENDOR"
-echo "main JAR file: $MAIN_JAR"
+# ------ ENVIRONMENT ----------------------------------------------
+# The script depends on environment variables to exist in order to
+# run properly (think of them as input parameters to the script).
+# We print them all here:
+
+echo "required input environment variables..."
+echo "  APP_PACKAGE: $APP_PACKAGE"         # e.g. "no.uib.inf101.app"
+echo "  APP_VENDOR: $APP_VENDOR"           # info shown in ~about~ dialog
+echo "  APP_VERSION: $APP_VERSION"         # version shown in ~about~ dialog
+echo "  INSTALLER_TYPE: $INSTALLER_TYPE"   # e.g. "dmg" or "pkg"
+echo "  JAVA_HOME: $JAVA_HOME"             # path to java installation
+echo "  JAVA_VERSION: $JAVA_VERSION"       # e.g. "17"
+echo "  MAIN_CLASS: $MAIN_CLASS"           # e.g. "no.uib.inf101.app.Main"
+echo "  MAIN_JAR: $MAIN_JAR"               # filename produced in package phase
+echo "  PROJECT_NAME: $PROJECT_NAME"       # human-friendly name of application
+echo "  PROJECT_VERSION: $PROJECT_VERSION" # version in pom, e.g. "1.0-SNAPSHOT"
+echo "computed variables..."
+CURRENT_YEAR=$(date +'%Y')
+echo "  CURRENT_YEAR: $CURRENT_YEAR"
+PATH_TO_MAIN_CLASS="target/classes/${MAIN_CLASS//'.'//}.class"
+echo "  PATH_TO_MAIN_CLASS: $PATH_TO_MAIN_CLASS"
 
 # ------ SETUP DIRECTORIES AND FILES ----------------------------------------
 # Remove previously generated java runtime and installers. Copy all required
 # jar files into the input/libs folder.
 
+echo "setting up directories and files..."
 rm -rfd ./target/java-runtime/
 rm -rfd target/installer/
 
 mkdir -p target/installer/input/libs/
 
-cp target/libs/* target/installer/input/libs
+if [[ -d target/libs ]]; then
+  cp target/libs/* target/installer/input/libs
+fi
 cp "target/${MAIN_JAR}" target/installer/input/libs/
 
 ## ------ REQUIRED MODULES ---------------------------------------------------
 ## Use jlink to detect all modules that are required to run the application.
 ## Starting point for the jdep analysis is the set of jars being used by the
 ## application.
-#
-#echo "detecting required modules"
+
+echo "detecting required modules.."
 detected_modules=$("$JAVA_HOME/bin/jdeps" \
   -q \
   --multi-release "${JAVA_VERSION}" \
   --ignore-missing-deps \
   --print-module-deps \
   --class-path "target/installer/input/libs/*" \
-    target/classes/uib/inf101/Main.class)
-echo "detected modules: ${detected_modules}"
+    "$PATH_TO_MAIN_CLASS")
+echo "  detected modules: ${detected_modules}"
 
+# Note: in the original version of this script by dlemmermann (reference
+# above), there is a separate section on manual required modules. Please
+# adapt from that script if you find that this is required. Only applies
+# to certain modules, such as jdk.crypto.ec or jdk.localedata.
 
-## ------ MANUAL MODULES -----------------------------------------------------
-## jdk.crypto.ec has to be added manually bound via --bind-services or
-## otherwise HTTPS does not work.
-##
-## See: https://bugs.openjdk.java.net/browse/JDK-8221674
-##
-## In addition we need jdk.localedata if the application is localized.
-## This can be reduced to the actually needed locales via a jlink parameter,
-## e.g., --include-locales=en,de.
-##
-## Don't forget the leading ','!
-#
-manual_modules=,jdk.localedata
-echo "manual modules: ${manual_modules}"
-#
 # ------ RUNTIME IMAGE ------------------------------------------------------
 # Use the jlink tool to create a runtime image for our application. We are
 # doing this in a separate step instead of letting jlink do the work as part
 # of the jpackage tool. This approach allows for finer configuration and also
 # works with dependencies that are not fully modularized, yet.
 
-echo "creating java runtime image"
+echo "creating java runtime image..."
 "$JAVA_HOME/bin/jlink" \
   --strip-native-commands \
   --no-header-files \
   --no-man-pages  \
   --compress=2  \
   --strip-debug \
-  --add-modules "${detected_modules}${manual_modules}" \
-  --include-locales=en,no \
+  --add-modules "${detected_modules}" \
   --output target/java-runtime
 
 # ------ PACKAGING ----------------------------------------------------------
 # In the end we will find the package inside the target/installer directory.
-CURRENT_YEAR=$(date +'%Y')
 
-echo "Creating installer of type $INSTALLER_TYPE"
+echo "creating installer of type $INSTALLER_TYPE..."
 "$JAVA_HOME/bin/jpackage" \
---type "$INSTALLER_TYPE" \
---dest target/installer \
---input target/installer/input/libs \
---name "${APP_NAME}" \
---main-class "${MAIN_CLASS}" \
---main-jar "${MAIN_JAR}" \
---runtime-image target/java-runtime \
---icon src/main/logo/macosx/duke.icns \
---app-version "${APP_VERSION}" \
---vendor "${APP_VENDOR}" \
---copyright "Copyright © ${CURRENT_YEAR} ${APP_VENDOR}." \
---mac-package-identifier "${APP_PACKAGE}"
-#--java-options -Xmx2048m \
+  --type "$INSTALLER_TYPE" \
+  --dest target/installer \
+  --input target/installer/input/libs \
+  --name "${PROJECT_NAME}" \
+  --main-class "${MAIN_CLASS}" \
+  --main-jar "${MAIN_JAR}" \
+  --runtime-image target/java-runtime \
+  --icon src/main/logo/macosx/duke.icns \
+  --app-version "${APP_VERSION}" \
+  --vendor "${APP_VENDOR}" \
+  --copyright "Copyright © ${CURRENT_YEAR} ${APP_VENDOR}." \
+  --mac-package-identifier "${APP_PACKAGE}"
+# --java-options -Xmx2048m \

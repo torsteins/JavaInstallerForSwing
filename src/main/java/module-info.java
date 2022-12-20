@@ -1,4 +1,4 @@
-module uib.inf101 {
+module no.uib.inf101.app {
     requires java.desktop;
-    exports uib.inf101;
+    exports no.uib.inf101.app;
 }

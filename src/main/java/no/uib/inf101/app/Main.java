@@ -1,4 +1,4 @@
-package uib.inf101;
+package no.uib.inf101.app;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
