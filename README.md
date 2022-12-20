@@ -1,4 +1,4 @@
-# Maven template for Java Swing projects with native installers
+# Maven template for Java Swing project with native installers
 
 Create native application installers for Mac and Windows by running the *install* phase in a Maven-managed Java project. The scripts in this package rely on the tools `jdeps`, `jlink`, and `jpackage` which are shipped along with OpenJDK.
 
