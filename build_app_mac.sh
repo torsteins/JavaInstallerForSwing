@@ -6,7 +6,7 @@
 # Inspired by a template made by dlemmermann at
 # https://github.com/dlemmermann/JPackageScriptFX
 #
-# Simplified by Torstein Strømme to fit the Swing framework.
+# Simplified by Torstein Strømme to fit INF101 at the University of Bergen.
 
 
 # ------ ENVIRONMENT ----------------------------------------------
@@ -18,6 +18,7 @@ echo "required input environment variables..."
 echo "  APP_PACKAGE: $APP_PACKAGE"         # e.g. "no.uib.inf101.app"
 echo "  APP_VENDOR: $APP_VENDOR"           # info shown in ~about~ dialog
 echo "  APP_VERSION: $APP_VERSION"         # version shown in ~about~ dialog
+echo "  ICON_PATH: $ICON_PATH"             # path to .icns -file
 echo "  INSTALLER_TYPE: $INSTALLER_TYPE"   # e.g. "dmg" or "pkg"
 echo "  JAVA_HOME: $JAVA_HOME"             # path to java installation
 echo "  JAVA_VERSION: $JAVA_VERSION"       # e.g. "17"
@@ -94,7 +95,7 @@ echo "creating installer of type $INSTALLER_TYPE..."
   --main-class "${MAIN_CLASS}" \
   --main-jar "${MAIN_JAR}" \
   --runtime-image target/java-runtime \
-  --icon src/main/logo/macosx/duke.icns \
+  --icon "${ICON_PATH}" \
   --app-version "${APP_VERSION}" \
   --vendor "${APP_VENDOR}" \
   --copyright "Copyright © ${CURRENT_YEAR} ${APP_VENDOR}." \

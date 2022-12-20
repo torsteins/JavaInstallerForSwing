@@ -4,6 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Major project properties -->
     <groupId>no.uib.inf101.app</groupId>
     <artifactId>SamplePackagedSwingApp</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -11,17 +12,21 @@
     <packaging>jar</packaging>
 
     <properties>
+        <!-- General project properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <app.main.class>no.uib.inf101.app.Main</app.main.class>
-        <app.vendor>Torstein Strømme</app.vendor>
-        <mac.installer.type>dmg</mac.installer.type> <!-- dmg, pkg -->
-        <windows.installer.type>msi</windows.installer.type> <!-- msi, exe -->
-        <windows.icon.path>src/main/logo/windows/duke.ico</windows.icon.path>
-
         <java.version>17</java.version>
+
+        <!-- Properties required for packaging application as JAR and installer -->
+        <app.main.class>no.uib.inf101.app.Main</app.main.class>
+        <app.vendor>Torstein Strømme</app.vendor> <!-- copyright holder -->
+        <app.version>1.0.0</app.version> <!-- version displayed in "about" -->
+        <app.installer.macosx.type>dmg</app.installer.macosx.type> <!-- dmg, pkg -->
+        <app.installer.windows.type>msi</app.installer.windows.type> <!-- msi, exe -->
+        <app.macosx.icon.path>src/main/logo/macosx/duke.icns</app.macosx.icon.path>
+        <app.windows.icon.path>src/main/logo/windows/duke.ico</app.windows.icon.path>
+
+        <!-- Library and plugin versions -->
         <junit.version>5.9.1</junit.version>
-        <client.version>1.0.0</client.version>
         <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
         <maven.dependency.plugin.version>3.4.0</maven.dependency.plugin.version>
         <maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
@@ -121,8 +126,9 @@
                             <environmentVariables>
                                 <APP_PACKAGE>${project.groupId}</APP_PACKAGE>
                                 <APP_VENDOR>${app.vendor}</APP_VENDOR>
-                                <APP_VERSION>${client.version}</APP_VERSION>
-                                <INSTALLER_TYPE>${mac.installer.type}</INSTALLER_TYPE>
+                                <APP_VERSION>${app.version}</APP_VERSION>
+                                <ICON_PATH>${app.macosx.icon.path}</ICON_PATH>
+                                <INSTALLER_TYPE>${app.installer.macosx.type}</INSTALLER_TYPE>
                                 <JAVA_HOME>${java.home}</JAVA_HOME>
                                 <JAVA_VERSION>${java.version}</JAVA_VERSION>
                                 <MAIN_CLASS>${app.main.class}</MAIN_CLASS>
@@ -162,9 +168,9 @@
                             <environmentVariables>
                                 <APP_PACKAGE>${project.groupId}</APP_PACKAGE>
                                 <APP_VENDOR>${app.vendor}</APP_VENDOR>
-                                <APP_VERSION>${client.version}</APP_VERSION>
-                                <ICON_PATH>${windows.icon.path}</ICON_PATH>
-                                <INSTALLER_TYPE>${windows.installer.type}</INSTALLER_TYPE>
+                                <APP_VERSION>${app.version}</APP_VERSION>
+                                <ICON_PATH>${app.windows.icon.path}</ICON_PATH>
+                                <INSTALLER_TYPE>${app.installer.windows.type}</INSTALLER_TYPE>
                                 <JAVA_HOME>${java.home}</JAVA_HOME>
                                 <JAVA_VERSION>${java.version}</JAVA_VERSION>
                                 <MAIN_JAR>${project.artifactId}-${project.version}.jar</MAIN_JAR>

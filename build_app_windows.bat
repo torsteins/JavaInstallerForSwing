@@ -1,7 +1,12 @@
 @ECHO OFF
-REM This script for packaging a Java application as a Windows
-REM installer is based on an example by dlemmermann found at
+REM Script for packaging a Java application as a Windows installer.
+REM Designed to be used with Maven (see example pom.xml at
+REM https://github.com/torsteins/JavaInstallerForSwing)
+REM
+REM Inspired by a template made by dlemmermann at
 REM https://github.com/dlemmermann/JPackageScriptFX
+REM
+REM Simplified by Torstein Strømme to fit INF101 at the University of Bergen.
 
 REM ------ ENVIRONMENT --------------------------------------------------------
 REM The script depends on various environment variables to exist in order to
