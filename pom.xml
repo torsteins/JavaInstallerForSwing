@@ -31,6 +31,9 @@
         <maven.dependency.plugin.version>3.4.0</maven.dependency.plugin.version>
         <maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
         <exec.maven.plugin.version>1.6.0</exec.maven.plugin.version>
+
+        <!-- Computed properties -->
+        <maven.compiler.release>${java.version}</maven.compiler.release>
     </properties>
 
     <dependencies>
@@ -125,6 +128,7 @@
                             <executable>./build_app_mac.sh</executable>
                             <environmentVariables>
                                 <APP_PACKAGE>${project.groupId}</APP_PACKAGE>
+                                <ABOUT_NAME>${project.name}</ABOUT_NAME>
                                 <APP_VENDOR>${app.vendor}</APP_VENDOR>
                                 <APP_VERSION>${app.version}</APP_VERSION>
                                 <ICON_PATH>${app.macosx.icon.path}</ICON_PATH>

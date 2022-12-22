@@ -15,6 +15,7 @@
 # We print them all here:
 
 echo "required input environment variables..."
+echo "  ABOUT_NAME: $ABOUT_NAME"           # name of app in menu
 echo "  APP_PACKAGE: $APP_PACKAGE"         # e.g. "no.uib.inf101.app"
 echo "  APP_VENDOR: $APP_VENDOR"           # info shown in ~about~ dialog
 echo "  APP_VERSION: $APP_VERSION"         # version shown in ~about~ dialog

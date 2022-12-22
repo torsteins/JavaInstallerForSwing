@@ -8,6 +8,7 @@ public class TestMain {
 
     @Test
     public void testGetSize() {
-        assertEquals(150, ScreenSaver.defaultDimension.getHeight());
+        MovingDot dot = new MovingDot();
+        assertEquals(150, dot.getPreferredSize().getHeight());
     }
 }
