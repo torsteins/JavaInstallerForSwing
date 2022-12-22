@@ -25,6 +25,7 @@ public class MovingDot extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         g.setColor(Color.RED);
         g.fillOval(x-25, 75, 50, 50);
         g.setColor(Color.BLACK);
